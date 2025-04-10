@@ -7,19 +7,19 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.utility.DockerImageName;
 
-@TestConfiguration(proxyBeanMethods = false)
-class TestcontainersConfiguration {
+// @TestConfiguration(proxyBeanMethods = false)
+// class TestcontainersConfiguration {
 
-	@Bean
-	@ServiceConnection
-	ElasticsearchContainer elasticsearchContainer() {
-		return new ElasticsearchContainer(DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:7.17.10"));
-	}
+// 	@Bean
+// 	@ServiceConnection
+// 	ElasticsearchContainer elasticsearchContainer() {
+// 		return new ElasticsearchContainer(DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:7.17.10"));
+// 	}
 
-	@Bean
-	@ServiceConnection
-	PostgreSQLContainer<?> postgresContainer() {
-		return new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"));
-	}
+// 	@Bean
+// 	@ServiceConnection
+// 	PostgreSQLContainer<?> postgresContainer() {
+// 		return new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"));
+// 	}
 
-}
+// }
