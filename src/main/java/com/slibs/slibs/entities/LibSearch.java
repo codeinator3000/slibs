@@ -9,7 +9,6 @@ import lombok.Data;
  * Используется только для поиска по описанию и лицензии.
  * Помимо этого хранит идентификатор на информацию о библиотеке в основной базе данных.
  */
-@Data
 public class LibSearch {
     @Id
     private int id;
@@ -17,4 +16,50 @@ public class LibSearch {
     private int mainId;
     private String description;
     private String license;
+
+    public LibSearch(int id, int mainId, String description, String license) {
+        this.id = id;
+        this.mainId = mainId;
+        this.description = description;
+        this.license = license;
+    }
+    
+
+    public LibSearch() {
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getMainId() {
+        return mainId;
+    }
+
+    public void setMainId(int mainId) {
+        this.mainId = mainId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLicense() {
+        return license;
+    }
+
+    public void setLicense(String license) {
+        this.license = license;
+    }
+
+    
 }
