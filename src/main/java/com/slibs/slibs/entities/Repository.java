@@ -6,6 +6,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
+/**
+ * Класс, представляющий репозиторий в системе.
+ * Используется для хранения данных о репозитории библиотеки.
+ */
 @Data
 public class Repository {
     @Id

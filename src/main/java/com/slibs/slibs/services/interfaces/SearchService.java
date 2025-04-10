@@ -6,6 +6,27 @@ import com.slibs.slibs.entities.Library;
 import com.slibs.slibs.repositories.support.SearchFilter;
 
 public interface SearchService {
-    public List<Library> search(String repositoryName, String description, int page);
-    public List<Library> search(String repositoryName, String description, int page, SearchFilter filter);
+    /**
+     * Выполняет поиск аналогов библиотеки по её названию.
+     * Поиск производится по всем репозиториям, указанным в списке.
+     * @param repositoryName - название репозитория, в котором находится указанная библиотека
+     * @param libName - название библиотеки
+     * @param repositories - список репозиториев, в которых производится поиск
+     * @param page - номер страницы результата поиска
+     * @return список аналогов библиотеки
+     */
+    public List<Library> search(String repositoryName, String libName, 
+        List<String> repositories, int page);
+    /**
+     * Выполняет поиск аналогов библиотеки по её названию, 
+     * учитывая лицензию.
+     * @param repositoryName - название репозитория, в котором находится указанная библиотека
+     * @param libName - название библиотеки
+     * @param repositories - список репозиториев, в которых производится поиск
+     * @param page - номер страницы результата поиска
+     * @param filter - фильтр для поиска
+     * @return список аналогов библиотеки
+     */
+    public List<Library> search(String repositoryName, String libName, 
+        List<String> repositories, int page, SearchFilter filter);
 }

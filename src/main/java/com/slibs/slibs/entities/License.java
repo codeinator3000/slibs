@@ -6,6 +6,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
+/**
+ * Класс, представляющий лицензию библиотеки.
+ * Используется для хранения информации о лицензии библиотеки.
+ */
 @Data
 public class License {
     @Id

@@ -4,7 +4,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-
+/**
+ * Класс, представляющий библиотеку в системе.
+ * Используется для хранения всей основной информации о библиотеке.
+ */
 @Data
 @Table(name = "library")
 public class Library {
