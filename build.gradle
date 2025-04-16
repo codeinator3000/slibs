@@ -32,6 +32,10 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	
+	// libs
+	// https://mvnrepository.com/artifact/org.jsoup/jsoup
+	implementation 'org.jsoup:jsoup:1.19.1'
+
 	runtimeOnly 'org.postgresql:postgresql'
 	
 	compileOnly 'org.projectlombok:lombok'
