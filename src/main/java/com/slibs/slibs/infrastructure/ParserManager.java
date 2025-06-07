@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import com.slibs.slibs.entities.Library;
 
+@Component
 public class ParserManager {
     private final Map<String, Parser> parsers = new HashMap<>();
 
@@ -15,5 +18,9 @@ public class ParserManager {
 
     public List<Library> getLibraries(String repoName, int page) {
         return parsers.get(repoName).getLibraries(page);
+    }
+
+    public List<String> getRepoNames() {
+        return parsers.keySet().stream().toList();
     }
 }

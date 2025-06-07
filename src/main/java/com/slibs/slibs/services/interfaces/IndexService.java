@@ -1,5 +1,12 @@
 package com.slibs.slibs.services.interfaces;
 
+import java.util.List;
+
+import com.slibs.slibs.entities.License;
+import com.slibs.slibs.entities.Repository;
+
+
+
 public interface IndexService {
     /**
      * Обновляет данные о всех библиотеках в основной и поисковой базах данных.
@@ -7,13 +14,13 @@ public interface IndexService {
      */
     public Boolean updateIndex();
     /**
-     * Возвращает состояние автоматического обновления.
-     * @return true, если автоматическое обновление включено
+     * Возвращает список всех репозиториев, которые доступны в основной базе данных.
+     * @return список репозиториев
      */
-    public Boolean isAutoUpdateEnable();
+    public List<Repository> getAllRepositories();
     /**
-     * Переключает состояние автоматического обновления.
-     * @return true, если автоматическое обновление включено
+     * Возвращает список всех лицензий, которые доступны в основной базе данных.
+     * @return список лицензий
      */
-    public Boolean switchAutoUpdate();
+    public List<License> getAllLicenses();
 }

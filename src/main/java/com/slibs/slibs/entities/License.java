@@ -2,6 +2,9 @@ package com.slibs.slibs.entities;
 
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
@@ -10,17 +13,16 @@ import lombok.Data;
  * Класс, представляющий лицензию библиотеки.
  * Используется для хранения информации о лицензии библиотеки.
  */
+@Entity
 public class License {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private String name;
-    @ManyToOne
-    private List<Library> libraries;
 
-    public License(int id, String name, List<Library> libraries) {
+    public License(int id, String name) {
         this.id = id;
         this.name = name;
-        this.libraries = libraries;
     }
 
     
@@ -39,12 +41,6 @@ public class License {
     }
     public void setName(String name) {
         this.name = name;
-    }
-    public List<Library> getLibraries() {
-        return libraries;
-    }
-    public void setLibraries(List<Library> libraries) {
-        this.libraries = libraries;
     }
 
     

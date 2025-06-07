@@ -2,6 +2,9 @@ package com.slibs.slibs.entities;
 
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
@@ -10,17 +13,16 @@ import lombok.Data;
  * Класс, представляющий репозиторий в системе.
  * Используется для хранения данных о репозитории библиотеки.
  */
+@Entity
 public class Repository {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private String title;
-    @ManyToOne
-    private List<Library> libraries;
 
-    public Repository(int id, String title, List<Library> libraries) {
+    public Repository(int id, String title) {
         this.id = id;
         this.title = title;
-        this.libraries = libraries;
     }
 
     
@@ -39,12 +41,6 @@ public class Repository {
     }
     public void setTitle(String title) {
         this.title = title;
-    }
-    public List<Library> getLibraries() {
-        return libraries;
-    }
-    public void setLibraries(List<Library> libraries) {
-        this.libraries = libraries;
     }
     
 }

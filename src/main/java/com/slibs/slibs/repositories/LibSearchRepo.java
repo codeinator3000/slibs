@@ -17,12 +17,12 @@ public interface LibSearchRepo {
      * @param indexName - название индекса, в котором находится библиотека. Обычно, это название репозитория.
      * @param id - идентификатор библиотеки. 
      */
-    void delete(String indexName, int id);
+    Boolean delete(String indexName, int id);
     /**
      * Удаляет индекс со всеми данными.
      * @param indexName - название индекса. Обычно, это название репозитория.
      */
-    void deleteIndex(String indexName);
+    Boolean deleteIndex(String indexName);
     /**
      * Находит библиотеку в индексе по ее описанию.
      * @param indexName - название индекса, в котором находится библиотека. Обычно, это название репозитория.
@@ -34,7 +34,7 @@ public interface LibSearchRepo {
      * Находит библиотеки в индексе по ее описанию.
      * @param indexName - название индекса, в котором находится библиотека. Обычно, это название репозитория.
      * @param description - описание библиотеки. по которому необходимо провести поиск.
-     * @param page - номер страницы результата поиска.
+     * @param page - номер страницы результата поиска. Начинается с 0.
      * @return данные всех найденных библиотек.
      */
     List<LibSearch> findAllByDescription(String indexName, String description, int page);
@@ -43,8 +43,8 @@ public interface LibSearchRepo {
      * @param indexName - название индекса, в котором находится библиотека. Обычно, это название репозитория.
      * @param description - описание библиотеки. по которому необходимо провести поиск.
      * @param page - номер страницы результата поиска.
-     * @param filter - фильтр для поиска
+     * @param filters - фильтры для поиска
      * @return данные всех найденных библиотек.
      */
-    List<LibSearch> findAllByDescription(String indexName, String description, int page, SearchFilter filter);
+    List<LibSearch> findAllByDescription(String indexName, String description, int page, List<SearchFilter> filters);
 }

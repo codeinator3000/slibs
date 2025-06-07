@@ -12,6 +12,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +22,7 @@ import com.slibs.slibs.entities.License;
 import com.slibs.slibs.entities.Repository;
 import com.slibs.slibs.infrastructure.Parser;
 
+@Component
 public class ParserMaven implements Parser {
     private final String repoName = "maven";
     private final HttpClient httpClient;
@@ -45,10 +47,7 @@ public class ParserMaven implements Parser {
         var mapper = new ObjectMapper();
         try {
             HttpResponse<String> res = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
-            System.out.println(res.body());
             var arrJson = mapper.readTree(res.body());
-            System.out.println(arrJson.isArray());
-            System.out.println("sizer " + arrJson.size());
             for (JsonNode jsonNode : arrJson) {
                 var lib = getLibrary(jsonNode);
                 libs.add(lib);
@@ -73,7 +72,7 @@ public class ParserMaven implements Parser {
         
         var lib = new Library();
         lib.setTitle(name);
-        lib.setDescString(desc);
+        lib.setDescription(desc);
         lib.setAuthor(null);
         lib.setUrl(url);
         lib.setRepository(repo);
