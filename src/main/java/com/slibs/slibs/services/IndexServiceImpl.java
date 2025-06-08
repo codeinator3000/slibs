@@ -2,6 +2,7 @@ package com.slibs.slibs.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.slibs.slibs.entities.LibSearch;
@@ -15,8 +16,12 @@ import com.slibs.slibs.repositories.LicenseRepo;
 import com.slibs.slibs.repositories.RepositoryRepo;
 import com.slibs.slibs.services.interfaces.IndexService;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
+@RequiredArgsConstructor
 public class IndexServiceImpl implements IndexService {
     private final LibSearchRepo libSearchRepo;
     private final LibraryRepo libraryRepo;
@@ -24,50 +29,63 @@ public class IndexServiceImpl implements IndexService {
     private final RepositoryRepo repositoryRepo;
     private final LicenseRepo licenseRepo;
 
-    public IndexServiceImpl(LibSearchRepo libSearchRepo, LibraryRepo libraryRepo, ParserManager parserManager,
-            RepositoryRepo repositoryRepo, LicenseRepo licenseRepo) {
-        this.libSearchRepo = libSearchRepo;
-        this.libraryRepo = libraryRepo;
-        this.parserManager = parserManager;
-        this.repositoryRepo = repositoryRepo;
-        this.licenseRepo = licenseRepo;
-    }
+    @Value("${libs.max}")
+    int maxLibs;
+    @Value("${libs.page-size}")
+    int pageSize;
 
     @Override
+    @Transactional
     public Boolean updateIndex() {
-        var maxLibs = 200;
         var repoNames = parserManager.getRepoNames();
-        for (var repoName : repoNames) {
-            for (int page = 0; page < (maxLibs / 10); page++) {
-                try {
-                    var libraries = parserManager.getLibraries(repoName, page);
+        try {
+            // Для каждого репозитория
+            for (var repoName : repoNames) {
+                // По страницам
+                for (int page = 0; page < (int)Math.ceil((double)maxLibs / pageSize); page++) {
+                    // Получаем все библиотеки из репозитория за эту страницу
+                    var libraries = parserManager.getLibraries(repoName, page, pageSize);
                     for (var lib : libraries) {
-                        var foundLibrary = libraryRepo.findByUrl(lib.getUrl());
-                        Library resultLib = null;
-                        if (foundLibrary == null) {
-                            var repo = repositoryRepo.findByTitle(repoName);
-                            var lic = licenseRepo.findByName(lib.getLicense().getName());
-                            if (repo != null) {
-                                lib.setRepository(repo);
-                            }
-                            if (lic != null) {
-                                lib.setLicense(lic);
-                            }
-                            resultLib = libraryRepo.save(lib);
-                        } else {
-                            foundLibrary.update(lib);
-                            resultLib = libraryRepo.save(foundLibrary);
-                        }
+                        // Обновление или добавление данных в основную базу данных
+                        var resultLib = saveOrUpdateLibData(repoName, lib);
+
+                        // Обновление или добавление данных в поисковую базу данных
                         libSearchRepo.saveOrUpdate(repoName, new LibSearch(resultLib));
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return false;
                 }
-
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
         return true;
+    }
+
+    /**
+     * Сохраняет или обновляет данные в основной базе данных
+     * @param repoName название репозитория, в котором находятся библиотеки
+     * @param currentLibrary полученные данные библиотеки (новая библиотека или данные уже существующей)
+     * @return обновленные данные библиотеки
+     */
+    private Library saveOrUpdateLibData(String repoName, Library currentLibrary) {
+        // Устанавливаем реальные зависимые данные, если они есть
+        var repos = repositoryRepo.findByTitle(repoName);
+        var lics = licenseRepo.findByName(currentLibrary.getLicense().getName());
+        if (!repos.isEmpty()) {
+            currentLibrary.setRepository(repos.getFirst());
+        }
+        if (!lics.isEmpty()) {
+            currentLibrary.setLicense(lics.getFirst());
+        }
+
+        // Нет ли такой библиотеки в индексе?
+        var foundedLibraries = libraryRepo.findByUrl(currentLibrary.getUrl());
+        if (!foundedLibraries.isEmpty()) {
+            var foundedLib = foundedLibraries.getFirst();
+            foundedLib.update(currentLibrary);
+            return libraryRepo.save(foundedLib);
+        }
+        return libraryRepo.save(currentLibrary);
     }
 
     @Override

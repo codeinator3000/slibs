@@ -10,7 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.slibs.slibs.infrastructure.parsers.ParserNpm;
+import com.slibs.slibs.infrastructure.parsers.ParserPackagist;
 import com.slibs.slibs.infrastructure.support.ApiClient;
 import com.slibs.slibs.infrastructure.support.LibraryDto;
 import com.slibs.slibs.infrastructure.support.LibraryMapper;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-class ParserNpmTests {
+class ParserPackagistTests {
     @Mock
     private ApiClient mockClient;
     @Mock
@@ -33,12 +33,12 @@ class ParserNpmTests {
             libsDto.add(new LibraryDto());
             libs.add(new Library());
         }
-        when(mockClient.getLibsDto("npm", 0, size))
+        when(mockClient.getLibsDto("packagist", 0, size))
             .thenReturn(libsDto);
         when(mockLibraryMapper.toLibraryList(libsDto))
             .thenReturn(libs);
         
-        var parser = new ParserNpm(mockClient, mockLibraryMapper);
+        var parser = new ParserPackagist(mockClient, mockLibraryMapper);
         
         var res = parser.getLibraries(0, size);
         assertNotNull(res);
@@ -50,10 +50,10 @@ class ParserNpmTests {
         List<LibraryDto> libsDto = new ArrayList<>();
         List<Library> libs = new ArrayList<>();
 
-        when(mockClient.getLibsDto("npm", 0, 0)).thenReturn(libsDto);
+        when(mockClient.getLibsDto("packagist", 0, 0)).thenReturn(libsDto);
         when(mockLibraryMapper.toLibraryList(libsDto)).thenReturn(libs);
 
-        var parser = new ParserNpm(mockClient, mockLibraryMapper);
+        var parser = new ParserPackagist(mockClient, mockLibraryMapper);
         var res = parser.getLibraries(0, 0);
 
         assertNotNull(res);
@@ -70,10 +70,10 @@ class ParserNpmTests {
             libs.add(new Library());
         }
 
-        when(mockClient.getLibsDto("npm", 0, size)).thenReturn(libsDto);
+        when(mockClient.getLibsDto("packagist", 0, size)).thenReturn(libsDto);
         when(mockLibraryMapper.toLibraryList(libsDto)).thenReturn(libs);
 
-        var parser = new ParserNpm(mockClient, mockLibraryMapper);
+        var parser = new ParserPackagist(mockClient, mockLibraryMapper);
         var res = parser.getLibraries(0, size);
 
         assertNotNull(res);

@@ -2,45 +2,32 @@ package com.slibs.slibs.entities;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Класс, представляющий репозиторий в системе.
  * Используется для хранения данных о репозитории библиотеки.
  */
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Repository {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
+    @Column(unique = true)
     private String title;
-
-    public Repository(int id, String title) {
-        this.id = id;
-        this.title = title;
-    }
-
-    
-    public Repository() {
-    }
-
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
+    @Column(unique = true)
+    private String lang;
+    public Repository(int id) {
         this.id = id;
     }
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
+    public Repository(String title, String lang) {
         this.title = title;
+        this.lang = lang;
     }
-    
 }

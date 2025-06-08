@@ -26,8 +26,8 @@ public class IndexController {
     }
 
     @GetMapping("/repositories")
-    public List<String> getAllRepositories() {
-        return indexService.getAllRepositories().stream().map(Repository::getTitle).toList();
+    public List<Repository> getAllRepositories() {
+        return indexService.getAllRepositories();
     }
 
     @GetMapping("/licenses")

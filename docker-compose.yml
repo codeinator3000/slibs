@@ -1,10 +1,43 @@
-version: '3.4'
-
 services:
+  elasticsearch:
+    image: elasticsearch:8.18.2
+    ports: 
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${PG_DB}
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_USER: ${PG_USER}
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   slibs:
     image: slibs
     build:
       context: .
       dockerfile: ./Dockerfile
+    environment:
+      PG_URL: postgres:5432
+      PG_USER: ${PG_USER}
+      PG_PASS: ${PG_PASS}
+      PG_DB: ${PG_DB}
+
+      ES_URL: elasticsearch:9200
+      
+      API_KEY: ${API_KEY}
+      API_URL: ${API_URL}
     ports:
       - 3000:3000
+    depends_on:
+      - elasticsearch
+      - postgres
+
+volumes:
+  postgres_data:
+    driver: local

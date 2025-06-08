@@ -3,8 +3,8 @@ package com.slibs.slibs.services.interfaces;
 import java.util.List;
 
 import com.slibs.slibs.entities.Library;
-import com.slibs.slibs.entities.LibraryDto;
 import com.slibs.slibs.repositories.support.SearchFilter;
+import com.slibs.slibs.services.support.LibraryResponse;
 
 public interface SearchService {
     /**
@@ -16,7 +16,7 @@ public interface SearchService {
      * @param page номер страницы результата поиска
      * @return список аналогов библиотеки
      */
-    public List<LibraryDto> search(String repositoryName, String libName,
+    public List<Library> search(String repositoryName, String libName,
                                    List<String> repositories, int page);
     /**
      * Выполняет поиск аналогов библиотеки по её названию, 
@@ -28,6 +28,6 @@ public interface SearchService {
      * @param filters фильтры для поиска
      * @return список аналогов библиотеки
      */
-    public List<LibraryDto> search(String repositoryName, String libName,
+    public List<Library> search(String repositoryName, String libName,
         List<String> repositories, int page, List<SearchFilter> filters);
 }

@@ -16,8 +16,8 @@ public class ParserManager {
         parsers.forEach(parser -> this.parsers.put(parser.getRepoName(), parser));
     }
 
-    public List<Library> getLibraries(String repoName, int page) {
-        return parsers.get(repoName).getLibraries(page);
+    public List<Library> getLibraries(String repoName, int page, int pageSize) {
+        return parsers.get(repoName).getLibraries(page, pageSize);
     }
 
     public List<String> getRepoNames() {

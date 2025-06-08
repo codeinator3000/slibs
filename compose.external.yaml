@@ -1,17 +1,17 @@
 services:
   elasticsearch:
-    image: elasticsearch:8.17.4
+    image: elasticsearch:8.18.2
     ports: 
       - 9200:9200
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
-   
+
   postgres:
-    image: 'postgres:latest'
+    image: postgres:latest
     environment:
-      - 'POSTGRES_DB=main_database'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      POSTGRES_DB: ${PG_DB}
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_USER: ${PG_USER}
     ports:
-      - '5432'
+      - 5432:5432

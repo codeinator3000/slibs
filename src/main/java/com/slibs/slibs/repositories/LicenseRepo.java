@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface LicenseRepo extends JpaRepository<License, Integer> {
-    License findByName(String name);
+    List<License> findByName(String name);
 }

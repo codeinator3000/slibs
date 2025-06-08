@@ -13,5 +13,5 @@ import java.util.List;
 
 @Repository
 public interface LibraryRepo extends JpaRepository<Library, Integer> {
-    Library findByUrl(String url);
+    List<Library> findByUrl(String url);
 }
