@@ -57,7 +57,8 @@ public class SearchServiceImpl implements SearchService {
 
         // Получаем все похожие библиотеки среди указанных репозиториев
         for (String repoName : repos) {
-            libSearches = libSearchRepo.findAllByDescription(repoName, description, page, filters);
+            var foundLibSearches = libSearchRepo.findAllByDescription(repoName, description, page, filters);
+            libSearches.addAll(foundLibSearches);
         }
         return libSearches;
     }
