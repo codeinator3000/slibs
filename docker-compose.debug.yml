@@ -1,0 +1,27 @@
+version: '3.4'
+
+include:
+  - compose.external.yaml
+
+services:
+  slibs:
+    image: slibs
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005,quiet=y
+      
+      PG_URL: postgres:5432
+      PG_USER: ${PG_USER}
+      PG_PASS: ${PG_PASS}
+      PG_DB: ${PG_DB}
+
+      ES_URL: elasticsearch:9200
+      
+      API_KEY: ${API_KEY}
+      API_URL: ${API_URL}
+    ports:
+      - 3000:3000
+      - 5005:5005
+
